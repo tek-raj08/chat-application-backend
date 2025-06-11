@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
     });
 
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", () => { 
         console.log("User disconnected", socket.id)
     })
 });
@@ -63,14 +63,14 @@ app.get("/users", async(req, res) => {
     const {currentUser} = req.query;
 
     try{
-        const users = await User.find({username: {ne: currentUser}})
+        const users = await User.find({username: {$ne: currentUser}})
         res.json(users)
     }catch(err){
         res.status(500).json({message: "Error fetching users."})
     }
 })
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 5001
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log("Mongodb connected.")
