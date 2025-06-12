@@ -15,6 +15,7 @@ const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
         origin: "http://localhost:3000"
+     
     }
 })
 
@@ -49,7 +50,7 @@ app.get("/messages", async(req, res) => {
         const message = await Messages.find({
             $or: [
                 {sender, receiver},
-                {sender: receiver, receiver:sender}
+                {sender:receiver, receiver:sender}
             ]
         }).sort({createdAt: 1})
         res.json(message)
@@ -74,6 +75,6 @@ const PORT = process.env.PORT || 5001
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log("Mongodb connected.")
-    app.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
-
+    server.listen(PORT, () => console.log(`Server is running on port ${PORT}`))
+    
 }).catch((error) => console.error(error))
